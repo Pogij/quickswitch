@@ -1,0 +1,10 @@
+<config>
+	<width>182</width>
+	<height>150</height>
+	<color>#f0f0f0f09999</color>
+	<position>
+		<type>2</type>
+		<coordinatex>500</coordinatex>
+		<coordinatey>400</coordinatey>
+	</position>
+</config>

@@ -1,0 +1,11 @@
+[Plugin]
+Loader=python
+Module=quickSwitcher
+IAge=2
+Name=Quick Switcher
+Description=Enables quick switching between tabs with Ctrl-E keyboard shortcut.
+Authors=Matevž Pogačar
+Copyright=Copyright © 2012 Matevž Pogačar
+Website=
+Version=1.2
+
