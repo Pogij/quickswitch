@@ -53,6 +53,7 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 	dialog = None
 	file_path = None
    
+	#Constructor. Initializes plugin on Gedit start.
 	def __init__(self):
 		GObject.Object.__init__(self)
 		self.file_path = os.path.expanduser('~') + "/.local/share/gedit/plugins/quickSwitcher/"
@@ -100,7 +101,7 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 				position_y = int(position_y_xml.text)
 
 		
-	
+	#Includes plugin in Gedit UI.
 	def _add_ui(self):
 		manager = self.window.get_ui_manager()
 		self._actions = Gtk.ActionGroup("QuickSwitchActions")
@@ -108,7 +109,7 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 		manager.insert_action_group(self._actions)
 		self._ui_merge_id = manager.add_ui_from_string(UI_XML)
 		manager.ensure_update()
-		
+
 	def do_activate(self):
 		self._add_ui()
 
@@ -125,7 +126,8 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 		manager.ensure_update()
 
 
-
+	#When user calls this plugin (<Ctrl>e is pressed or Tools->Quick Switch is pressed)
+	#Initializes class QuickSwitchDialog
 	def on_quick_switcher(self, action, data=None):
 		tabs = self.get_tabs()
 
@@ -140,7 +142,7 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 		self.dialog.show_all()
 
 
-
+	#Returns all opened tabs.
 	def get_tabs(self):
 		tabs = []
 		for document in self.window.get_documents():
@@ -149,13 +151,14 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 		return tabs
 				
 
-
+	#When user calls configuration dialog (via Edit->Preferences->Plugins).
 	def do_create_configure_widget(self):
 		settingsGrid = QuickSwitchSettings()
 		settingsGrid.setSettings(self, self.file_path)
 		return settingsGrid.do_create_configure_widget()
 
 
+	#Function called from QuickSwitchSettings so all changes will be available right away (no need for restarting Gedit).
 	def setSettings(self, new_width, new_height, new_color, new_position_type, new_position_x, new_position_y):
 		global width
 		global height

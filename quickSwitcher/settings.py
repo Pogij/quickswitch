@@ -38,12 +38,13 @@ class QuickSwitchSettings(Gtk.Grid):
 	default_position_x = 0
 	default_position_y = 0
 
+	#Setts parent object.
 	def setSettings(self, parent, file_path):
-
 		self.parent = parent
 		self.file_path = file_path
 
 
+	#Creates UI for cofigurations.
 	def do_create_configure_widget(self):
 		widget = Gtk.Grid()
 
@@ -193,6 +194,7 @@ class QuickSwitchSettings(Gtk.Grid):
 		return self
 
 
+	#On position change.
 	def positioning_change(self, widget=None, data=None):
 		for child in widget.get_parent().get_children():
 			if child.get_name() == "boxx" or child.get_name() == "boxy":
@@ -204,6 +206,7 @@ class QuickSwitchSettings(Gtk.Grid):
 						childchild.set_sensitive(False)
 
 
+	#Setts hardcoded default settings.
 	def reset_defaults(self, widget, data=None):
 		for child in widget.get_parent().get_children():
 			if child.get_name() == "width":
@@ -218,7 +221,7 @@ class QuickSwitchSettings(Gtk.Grid):
 						childchild.set_active(True)
 
 
-
+	#Saves settings to xml file.
 	def save_settings(self, widget, data=None):
 
 		new_width = self.default_width
@@ -271,6 +274,7 @@ class QuickSwitchSettings(Gtk.Grid):
 		self.parent.setSettings(int(new_width), int(new_height), new_color, int(new_position_type), int(new_position_x), int(new_position_y))
 		
 
+#Class NumberEntry is used so text input can be limited to accept digits only.
 
 class NumberEntry(Gtk.Entry):
     def __init__(self):

@@ -35,6 +35,8 @@ class QuickSwitchDialog(Gtk.Window):
 	position_x = None
 	position_y = None
 
+	lastCursor = 0
+
 	def __init__(self, parent, openedtabs, width, height, color, position_type, position_x, position_y):
 		Gtk.Window.__init__(self, title="")
 		
@@ -185,17 +187,36 @@ class QuickSwitchDialog(Gtk.Window):
 				
 			self.treeview.set_model(tablist)
 			self.treeview.set_cursor(0)
+
+		elif event.keyval == 65364:
+			arrayNumber = len(self.tabnumbers)
+			newCursor = int(self.treeview.get_cursor()[0].to_string())
+			if self.lastCursor == newCursor and self.lastCursor == (arrayNumber - 1):
+				self.treeview.set_cursor(0)
+			self.lastCursor = newCursor
+		elif event.keyval == 65362:
+			arrayNumber = len(self.tabnumbers)
+			newCursor = int(self.treeview.get_cursor()[0].to_string())
+			if self.lastCursor == newCursor and self.lastCursor == 0:
+				self.treeview.set_cursor(arrayNumber - 1)
+			self.lastCursor = newCursor
 		
 
+	#When any key on keyboard is pressed
 	def on_key_press(self, widget, event):
 		#if Escape or Alt or Ctrl
 		if (event.keyval == 65307 or event.keyval == 65513 or event.keyval == 65507):
 			self.destroy()
 			return
-		elif self.entry.has_focus() and (event.keyval == 65364 or event.keyval == 65362):
-			print "BBBBB"
+		#if down key pressed
+		elif event.keyval == 65364:
+			#if focus is on text field
+			arrayNumber = len(self.tabnumbers)
+			if self.entry.has_focus() and arrayNumber > 1:
+				self.treeview.set_cursor(1)
+
+
 
 	def do_focus_out_event(self, evt):
 		self.destroy()
-
 
