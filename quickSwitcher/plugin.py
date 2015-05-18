@@ -18,8 +18,8 @@
 
 import os
 from gi.repository import GObject, Gdk, Gtk, Gedit, PeasGtk
-from dialog import QuickSwitchDialog
-from settings import QuickSwitchSettings
+from .dialog import QuickSwitchDialog
+from .settings import QuickSwitchSettings
 from xml.etree import ElementTree
 
 width = None

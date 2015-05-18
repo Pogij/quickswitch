@@ -17,4 +17,4 @@
 # Boston, MA 02111-1307, USA.
 
 
-from plugin import QuickSwitcher
+from .plugin import QuickSwitcher
