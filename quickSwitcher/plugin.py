@@ -29,15 +29,7 @@ position_type = None
 position_x = None
 position_y = None
 
-UI_XML = """<ui>
-<menubar name="MenuBar">
-	<menu name="ToolsMenu" action="Tools">
-	  <placeholder name="ToolsOps_3">
-		<menuitem name="QuickSwitchAction" action="QuickSwitchAction"/>
-	  </placeholder>
-	</menu>
-</menubar>
-</ui>"""
+
 class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurable):
 	__gtype_name__ = "QuickSwitcher"
 	window = GObject.property(type=Gedit.Window)
@@ -100,35 +92,22 @@ class QuickSwitcher(GObject.Object, Gedit.WindowActivatable, PeasGtk.Configurabl
 			if not position_y_xml == None:
 				position_y = int(position_y_xml.text)
 
-		
-	#Includes plugin in Gedit UI.
-	def _add_ui(self):
-		manager = self.window.get_ui_manager()
-		self._actions = Gtk.ActionGroup("QuickSwitchActions")
-		self._actions.add_actions([('QuickSwitchAction', Gtk.STOCK_INFO, "Quick switch", '<Ctrl>e', "Open Quick Switch.", self.on_quick_switcher),])
-		manager.insert_action_group(self._actions)
-		self._ui_merge_id = manager.add_ui_from_string(UI_XML)
-		manager.ensure_update()
-
 	def do_activate(self):
-		self._add_ui()
+		self.kpe_handler = self.window.connect('key-press-event', self.on_quick_switcher)
 
 	def do_deactivate(self):
-		self._remove_ui()
+		pass
 
 	def do_update_state(self):
 		pass
-		
-	def _remove_ui(self):
-		manager = self.window.get_ui_manager()
-		manager.remove_ui(self._ui_merge_id)
-		manager.remove_action_group(self._actions)
-		manager.ensure_update()
-
 
 	#When user calls this plugin (<Ctrl>e is pressed or Tools->Quick Switch is pressed)
 	#Initializes class QuickSwitchDialog
-	def on_quick_switcher(self, action, data=None):
+	def on_quick_switcher(self, widget, event):
+		defmod = Gtk.accelerator_get_default_mod_mask() & event.state
+		if event.keyval != 0x65 or defmod != Gdk.ModifierType.CONTROL_MASK:
+			return
+
 		tabs = self.get_tabs()
 
 		global width
