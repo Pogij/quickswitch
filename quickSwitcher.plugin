@@ -3,9 +3,9 @@ Loader=python3
 Module=quickSwitcher
 IAge=2
 Name=Quick Switcher
-Description=Enables quick switching between tabs with Ctrl-E keyboard shortcut.
+Description=Enables quick switching between tabs with Ctrl-E keyboard shortcut. Works with gedit 3.14+
 Authors=Matevž Pogačar
 Copyright=Copyright © 2012 Matevž Pogačar
 Website=
-Version=1.3
+Version=1.4
 
